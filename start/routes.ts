@@ -20,4 +20,7 @@
 
 import Route from '@ioc:Adonis/Core/Route'
 
-Route.resource('systems', 'SystemsController')
+Route.get('/systems/', 'SystemsController.get').as('systems.get');
+
+
+Route.get('/systems/about', 'SystemsController.about').as('systems.about');
