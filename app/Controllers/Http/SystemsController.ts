@@ -3,11 +3,6 @@ import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 export default class SystemsController {
   public async index ({}: HttpContextContract) {
   }
-
-  public async get ({view}: HttpContextContract) {
-
-    return view.render('systems/get')
-  }
   public async about ({view}: HttpContextContract) {
 
     return view.render('systems/about')
