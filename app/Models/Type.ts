@@ -1,25 +1,38 @@
 import { DateTime } from 'luxon'
-import { BaseModel, column } from '@ioc:Adonis/Lucid/Orm'
+import { BaseModel, column, hasMany, HasMany, hasManyThrough, HasManyThrough } from '@ioc:Adonis/Lucid/Orm'
+import Raffle from './Raffle'
+import Ticket from './Ticket'
+import Award from './Award'
 
 export default class Type extends BaseModel {
   @column({ isPrimary: true })
   public id: number
 
   @column()
-  public descricao: string
+  public description: string
 
   @column()
-  public numeroInicial: number
+  public initialNumber: number
 
   @column()
-  public passo: number
+  public step: number
 
   @column()
-  public quantidadeBilhetes: number
+  public ticketsNumber: number
 
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime
 
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   public updatedAt: DateTime
+
+  @hasMany(()=> Raffle)
+  public raffles: HasMany<typeof Raffle>
+  
+  @hasManyThrough([() => Ticket, () => Raffle])
+  public tickets: HasManyThrough<typeof Ticket>
+
+  @hasManyThrough([() => Award, () => Raffle])
+  public awards: HasManyThrough<typeof Award>
+
 }

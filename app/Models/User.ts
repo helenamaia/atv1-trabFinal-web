@@ -4,7 +4,14 @@ import {
   column,
   beforeSave,
   BaseModel,
+  hasMany,
+  HasMany,
+  hasManyThrough,
+  HasManyThrough
 } from '@ioc:Adonis/Lucid/Orm'
+import Raffle from './Raffle'
+import Ticket from './Ticket'
+import Award from './Award'
 
 export default class User extends BaseModel {
   @column({ isPrimary: true })
@@ -37,4 +44,14 @@ export default class User extends BaseModel {
       user.password = await Hash.make(user.password)
     }
   }
+
+  @hasMany(()=> Raffle)
+  public raffles: HasMany<typeof Raffle>
+  
+  @hasManyThrough([() => Ticket, () => Raffle])
+  public tickets: HasManyThrough<typeof Ticket>
+
+  @hasManyThrough([() => Award, () => Raffle])
+  public awards: HasManyThrough<typeof Award>
+
 }

@@ -6,10 +6,10 @@ export default class Types extends BaseSchema {
   public async up () {
     this.schema.createTable(this.tableName, (table) => {
       table.increments('id')
-      table.string('descricao').notNullable()
-      table.integer('numero_inicial').notNullable()
-      table.integer('passo').notNullable()
-      table.integer('quantidade_bilhetes').notNullable()
+      table.string('description').notNullable()
+      table.integer('initial_number').notNullable()
+      table.integer('step').notNullable()
+      table.integer('tickets_number').notNullable()
       table.timestamps(true)
     })
   }

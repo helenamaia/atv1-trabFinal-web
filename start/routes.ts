@@ -1,7 +1,8 @@
 import Route from '@ioc:Adonis/Core/Route'
 
 Route.group(() => {
-  Route.get('/systems/about', 'SystemsController.about').as('systems.about')
+  Route.resource('raffles', 'RafflesController')
+  
 }).middleware('auth')
 
 

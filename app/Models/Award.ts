@@ -1,5 +1,6 @@
 import { DateTime } from 'luxon'
-import { BaseModel, column } from '@ioc:Adonis/Lucid/Orm'
+import { BaseModel, belongsTo, column, BelongsTo } from '@ioc:Adonis/Lucid/Orm'
+import Raffle from './Raffle'
 
 export default class Award extends BaseModel {
   @column({ isPrimary: true })
@@ -9,17 +10,21 @@ export default class Award extends BaseModel {
   public raffleId: number
 
   @column()
-  public descricao: string
+  public description: string
 
   @column()
-  public colocacao: number
+  public colocation: number
 
   @column()
-  public bilheteSorteado: number
+  public ticketDrawn: number
 
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime
 
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   public updatedAt: DateTime
+
+  @belongsTo(() => Raffle)
+  public raflle: BelongsTo<typeof Raffle>
+
 }

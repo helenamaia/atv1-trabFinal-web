@@ -7,9 +7,9 @@ export default class Awards extends BaseSchema {
     this.schema.createTable(this.tableName, (table) => {
       table.increments('id')
       table.integer('raffle_id').unsigned().notNullable().references('id').inTable('raffles')
-      table.string('descricao').notNullable()
-      table.integer('colocacao').notNullable()
-      table.integer('bilhete_sorteado')
+      table.string('description').notNullable()
+      table.integer('colocation').notNullable()
+      table.integer('ticket_drawn')
       table.timestamps(true)
     })
   }

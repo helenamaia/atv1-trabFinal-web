@@ -8,7 +8,7 @@ export default class Tickets extends BaseSchema {
       table.increments('id')
       table.integer('raffle_id').unsigned().notNullable().references('id').inTable('raffles')
       table.integer('user_id').unsigned().references('id').inTable('users')
-      table.integer('numero').notNullable()
+      table.integer('number').notNullable()
       table.timestamps(true)
     })
   }
