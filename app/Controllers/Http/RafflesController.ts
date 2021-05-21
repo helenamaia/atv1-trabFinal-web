@@ -1,10 +1,11 @@
 import { AuthContract } from '@ioc:Adonis/Addons/Auth'
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Raffle from 'App/Models/Raffle'
+import Ticket from 'App/Models/Ticket'
 import Type from 'App/Models/Type'
 
 export default class RafllesController {
-  public async index ({view, auth, params}: HttpContextContract) {
+  public async index({ view, auth, params }: HttpContextContract) {
 
     const user = auth.user!!
     const raffles = await user.related('raffles').query()
@@ -13,21 +14,30 @@ export default class RafllesController {
   }
 
   public async create({ view }: HttpContextContract) {
-    
-    return view.render('raffles/create')
+    const types = await Type.all()
+    return view.render('raffles/create', { types })
   }
 
   public async store({ request, response, auth }: HttpContextContract) {
-    const data = await request.only(['title', 'dateLikelySortition', 'dateStartSale', 'dateEndSale', 'priceTicket'])
+    const data = await request.only(['title', 'dateLikelySortition', 'dateStartSale', 'dateEndSale', 'priceTicket', 'typeId'])
     const user = auth.user
-    await Raffle.create({ ...data, userId: user?.id , typeId: 1})
+    await Raffle.create({ ...data, userId: user?.id })
     response.redirect().toRoute('raffles.index')
   }
-  
+  public async show({ view, auth, params }: HttpContextContract) {
+    const types = await Type.all()
+    const raffle = await this.getRaffle(auth, params.id, true)
+    return view.render('raffles/show', { raffle, types })
+  }
 
-  private async getRaffle(auth: AuthContract, id): Promise<Raffle> {
+
+  private async getRaffle(auth: AuthContract, id, preaload = false): Promise<Raffle> {
     const user = auth.user!!
-    return await user.related('raffles').query().firstOrFail()
+    if(preaload){
+      return await user.related('raffles').query().where('id', id).preload('tickets').firstOrFail()
+    }else{
+      return await user.related('raffles').query().where('id', id).firstOrFail()
+    }
   }
 
 

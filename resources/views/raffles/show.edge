@@ -1,0 +1,64 @@
+@layout('layout/app')
+
+@section('content')
+
+<div class="raffles">
+  <ul class="list-group mt-3">
+   
+      <li class="list-group-item">
+        <div class="name">
+          <strong> Título: </strong>
+          {{ raffle.title }}
+        </div>
+        <div class="type"> 
+          @each(type in types)
+              @if(raffle.typeId === type.id)
+              <strong> Tipo: </strong>
+                {{type.description}}
+              @endif
+          @endeach
+        </div>
+        <div class="description">
+          <strong> Descrição: </strong>
+          {{ raffle.description }}
+        </div>
+        <div class="dateLikelySortition">
+          <strong> Data provável de sorteio: </strong>
+          {{ raffle.dateLikelySortition }}
+        </div>
+        <div class="dateStartSale">
+          <strong> Começo das vendas: </strong>
+          {{ raffle.dateStartSale }}
+        </div>
+        <div class="dateEndSale">
+          <strong> Fim das vendas: </strong>
+          {{ raffle.dateEndSale }}
+        </div>
+        <div class="priceTicket">
+          <strong> Preço da rifa: </strong>
+          {{ raffle.priceTicket }}
+        </div>
+      </li>
+
+  </ul>
+</div>
+
+<div class="tickets">
+  <ul class="list-group mt-3">
+    @each(ticket in raffle.tickets)
+      <li class="list-group-item d-flex justify-content-between">
+        <div class="num"> {{ ticket.number }}</div>
+        <div class="actions">
+          <a href="{{ route('raffles.index') }}" class="btn btn-primary">Comprar</a>
+        </div>
+      </li>
+    @endeach
+  </ul>
+</div>
+
+<div>
+  <a href="{{ route('raffles.index') }}" class="btn btn-link">
+    Voltar
+  </a>
+</div>
+@endsection

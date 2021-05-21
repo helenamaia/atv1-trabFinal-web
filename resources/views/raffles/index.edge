@@ -2,17 +2,21 @@
 
 @section('content')
 <div>
-  <button href="{{ route('raffles.create') }}" class="btn btn-primary">
+  <a href="{{ route('raffles.create') }}" class="btn btn-primary">
       Nova rifa
-  </button>
+  </A>
 </div>
 <div class="raffles">
   <ul class="list-group mt-3">
     @each(raffle in raffles)
       <li class="list-group-item d-flex justify-content-between">
         <div class="name">{{ raffle.title }}</div>
+        <div class="actions">
+          <a href="{{ route('raffles.show', { id: raffle.id}) }}" class="btn btn-primary">Visualizar</a>
+        </div>
       </li>
     @endeach
+    
   </ul>
 </div>
 

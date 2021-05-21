@@ -2,21 +2,63 @@
 
 @section('content')
 <div>
-  <h2>Nova rifa</h2>
+  <div class="mb-3">
+    <h2>Nova rifa</h2>
+  </div>
   <form action="{{ route('raffles.store') }}" method="POST">
     <div class="mb-3">
-      <label for="name" class="form-label">Nome</label>
-      <input class="form-control" type="text" name="name" id="name">
+      <label for="title" class="form-label">Título</label>
+      <input class="form-control" type="text" name="title" id="title">
     </div>
+    
+    <div class="row mb-3">
+      <div class="col px-md-5">
+        <div class="input-group mb-3 ">
+          <div class="dateLikelySortition  p-3 w-25">
+            <label for="dateLikelySortition">Data provável do sorteio</label>
+            <input class="form-control" name="dateLikelySortition" id="dateLikelySortition" type="date">
+          </div>
+          <div class="dateStartSale  p-3 w-25 ">
+            <label for="dateStartSale">Começo das vendas</label>
+            <input class="form-control" name="dateStartSale" id="dateStartSale" type="date">
+          </div>
+          <div class="dateEndSale p-3 w-25">
+            <label for="dateEndSale">Fim das vendas</label>
+            <input class="form-control" name="dateEndSale" id="dateEndSale" type="date">
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <div class="input-group mb-4 w-75">
+          <div class="input-group-prepend">
+            <span class="input-group-text">Valor da rifa:</span>
+          </div>
+          <input type="number" name="priceTicket" class="form-control">
+          <div class="input-group-append">
+            <span class="input-group-text">.00</span>
+          </div>
+        </div>
+      </div>
+      <div class="col">
+        <div class="input-group mb-4 w-75">
+          <select class="form-select" name="typeId">
+            <option selected>Selecione um tipo...</option>
+            @each(type in types)
+              <option value="{{ type.id }}" {{ raffle?.type === theme ? 'selected' : '' }}>{{ type.description }}</option>
+            @endeach
+          </select>
+        </div>
+      </div>
+    </div>
+    
+   
+  
     <div>
       <button type="submit" class="btn btn-primary">Cadastrar</button>
-      <a href="{{ route('lists.index') }}" class="btn btn-link">Voltar</a>
+      <a href="{{ route('raffles.index') }}" class="btn btn-link">Voltar</a>
     </div>
   </form>
-</div>
-<div>
-  <a href="{{ route('root') }}" class="btn btn-link">
-    Voltar
-  </a>
 </div>
 @endsection
