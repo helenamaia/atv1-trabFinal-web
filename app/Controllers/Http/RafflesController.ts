@@ -1,3 +1,4 @@
+import { listDirectoryFiles } from '@adonisjs/ace'
 import { AuthContract } from '@ioc:Adonis/Addons/Auth'
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Raffle from 'App/Models/Raffle'
@@ -21,7 +22,13 @@ export default class RafllesController {
   public async store({ request, response, auth }: HttpContextContract) {
     const data = await request.only(['title', 'dateLikelySortition', 'dateStartSale', 'dateEndSale', 'priceTicket', 'typeId'])
     const user = auth.user
-    await Raffle.create({ ...data, userId: user?.id })
+    const raffle = await Raffle.create({ ...data, userId: user?.id })
+    let tickets = Array()
+    for (let i = 1; i < 1001; i++) {
+      const ticket = { "raffleId": raffle.id, "userId": user!!.id, "number": i}
+      tickets.push(ticket)
+    }
+    await Ticket.createMany(tickets)
     response.redirect().toRoute('raffles.index')
   }
   public async show({ view, auth, params }: HttpContextContract) {
