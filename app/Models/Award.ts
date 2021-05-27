@@ -10,7 +10,7 @@ export default class Award extends BaseModel {
   public raffleId: number
 
   @column()
-  public description: string
+  public descriptionAward: string
 
   @column()
   public colocation: number

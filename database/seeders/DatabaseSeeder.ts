@@ -19,13 +19,13 @@ export default class DatabaseSeederSeeder extends BaseSeeder {
     const raffle2 = await user2.related('raffles').create({title: 'Halloween', dateLikelySortition: DateTime.fromFormat("February 10 2022", "MMMM d yyyy"), dateStartSale: DateTime.fromFormat("December 21 2021", "MMMM d yyyy"), dateEndSale: DateTime.fromFormat("January 30 2022", "MMMM d yyyy"), priceTicket: 5, typeId: type1.id })
     const raffle3 = await user2.related('raffles').create({title: 'Semana da inclusão', dateLikelySortition: DateTime.fromFormat("july 09 2021", "MMMM d yyyy"), dateStartSale: DateTime.fromFormat("August 15 2021", "MMMM d yyyy"),dateEndSale: DateTime.fromFormat("August 14 2021", "MMMM d yyyy"), priceTicket: 10, typeId: type2.id })
 
-    await raffle1.related('awards').create({description: '50 reais', colocation: 3}) 
-    await raffle1.related('awards').create({description: '100 reais', colocation: 2}) 
-    await raffle1.related('awards').create({description: '200 reais', colocation: 2}) 
+    await raffle1.related('awards').create({descriptionAward: '50 reais', colocation: 3}) 
+    await raffle1.related('awards').create({descriptionAward: '100 reais', colocation: 2}) 
+    await raffle1.related('awards').create({descriptionAward: '200 reais', colocation: 2}) 
     
-    await raffle2.related('awards').create({description: 'caderno', colocation: 3}) 
-    await raffle2.related('awards').create({description: 'mochila', colocation: 2})
-    await raffle2.related('awards').create({description: 'kit escola', colocation: 1})
+    await raffle2.related('awards').create({descriptionAward: 'caderno', colocation: 3}) 
+    await raffle2.related('awards').create({descriptionAward: 'mochila', colocation: 2})
+    await raffle2.related('awards').create({descriptionAward: 'kit escola', colocation: 1})
 
     await raffle1.related('tickets').create({userId: user1.id, number: 1})
     await raffle1.related('tickets').create({userId: user2.id, number: 2})

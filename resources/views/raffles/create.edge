@@ -80,9 +80,15 @@
           <small class="text-danger">{{ flashMessages.get('errors.typeId') }}</small>
         @endif
       </div>
-      
     </div>
-    
+    <div class="input-group mb-3 ">
+            <label for="descriptionAward" class="form-label">Prêmio principal: </label>
+            <input class="form-control" type="text" name="descriptionAward" id="descriptionAward" value="{{ flashMessages.get('descriptionAward', award.descriptionAward) || '' }}">
+            @if(flashMessages.has('errors.descriptionAward'))
+             <small class="text-danger">{{ flashMessages.get('errors.descriptionAward') }}</small>
+            @endif
+          
+    </div>
    
   
     <div>

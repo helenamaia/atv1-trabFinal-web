@@ -2,6 +2,9 @@
 
 @section('content')
 
+<div>
+  
+</div>
 <div class="raffles">
   <ul class="list-group mt-3">
    
@@ -40,6 +43,20 @@
         </div>
       </li>
 
+  </ul>
+</div>
+
+<div class="awards">
+  <ul class="list-group mt-3">
+    @each(award in raffle.awards)
+   
+    <li class="list-group-item d-flex justify-content-between">
+      <div class="descriptionAward"> {{ award.descriptionAward }}</div>
+      <div class="actions">
+        <a href="{{ route('raffles.index') }}" class="btn btn-primary">Editar</a>
+      </div>
+    </li>
+    @endeach
   </ul>
 </div>
 
