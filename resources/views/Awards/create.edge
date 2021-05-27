@@ -1,0 +1,49 @@
+@layout('layout/app')
+
+@section('content')
+
+<div>
+  <div class="mb-4">
+    <h1>Novo Prêmio</h1>
+  </div>
+  
+  <form action="{{ route('awards.store', { id: raffle.id}) }}" method="POST">
+    {{ csrfField() }}
+    <div>
+      <div class="input-group mb-5">
+        <div class="input-group-prepend">
+          <span class="input-group-text">Prêmio:</span>
+        </div>
+        <input type="text" name="descriptionAward" class="form-control" value="{{ flashMessages.get('descriptionAward', award.description) || '' }}">
+        
+      </div>
+      @if(flashMessages.has('errors.descriptionAward'))
+          <small class="text-danger">{{ flashMessages.get('errors.descriptionAward') }}</small>
+        @endif
+    </div>
+    
+    <div>
+      <div class="input-group mb-5">
+        <div class="input-group-prepend">
+          <span class="input-group-text">Colocação:</span>
+        </div>
+        <input type="number" name="colocation" class="form-control" value="{{ flashMessages.get('colocation', award.colocation) || '' }}">
+        
+      </div>
+      @if(flashMessages.has('errors.colocation'))
+          <small class="text-danger">{{ flashMessages.get('errors.colocation') }}</small>
+        @endif
+  
+    </div>
+
+    <div>
+      <button type="submit" class="btn btn-primary">Cadastrar</button>
+      <a href="{{ route('raffles.index') }}" class="btn btn-link">Voltar</a>
+    </div>
+    
+
+
+  </form>
+</div>
+
+@endsection

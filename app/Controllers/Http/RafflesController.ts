@@ -43,7 +43,8 @@ export default class RafllesController {
   public async show({ view, auth, params }: HttpContextContract) {
     const types = await Type.all()
     const raffle = await this.getRaffle(auth, params.id, true)
-    return view.render('raffles/show', { raffle, types})
+    const raffleAward =  await this.getRaffleAward(auth, params.id, true)
+    return view.render('raffles/show', { raffle, types, raffleAward})
   }
 
   public async edit({ params, view, auth }: HttpContextContract) {
@@ -65,15 +66,21 @@ export default class RafllesController {
     response.redirect().toRoute('raffles.index')
   }
 
-  public async newAward({ view, auth, params }: HttpContextContract) {
-    
-    return view.render('raffles/newAward')
-  }
+  
 
   
 
 
   private async getRaffle(auth: AuthContract, id, preaload = false): Promise<Raffle> {
+    const user = auth.user!!
+    if(preaload){
+      return await user.related('raffles').query().where('id', id).preload('tickets').firstOrFail()
+    }else{
+      return await user.related('raffles').query().where('id', id).firstOrFail()
+    }
+  }
+
+  private async getRaffleAward(auth: AuthContract, id, preaload = false): Promise<Raffle> {
     const user = auth.user!!
     if(preaload){
       return await user.related('raffles').query().where('id', id).preload('awards').firstOrFail()

@@ -1,8 +1,11 @@
 import Route from '@ioc:Adonis/Core/Route'
+import Raffles from 'Database/migrations/1621037796293_raffles'
+
 
 Route.group(() => {
   Route.resource('raffles', 'RafflesController')
-  Route.get('/raffles/:id/newAward', 'RafflesController.newAward').as('raffles.newAward')
+  Route.get('/raffles/:id/awards', 'AwardsController.create').as('awards.create')
+  Route.post('/raffles/:id/awards', 'AwardsController.store').as('awards.store')
 
 }).middleware('auth')
 
