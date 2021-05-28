@@ -5,7 +5,8 @@
 <div>
   
 </div>
-<div class="raffles">
+<div class="raffles mb-3">
+  <h5>Descrição</h5>
   <ul class="list-group mt-3">
    
       <li class="list-group-item">
@@ -46,28 +47,29 @@
   </ul>
 </div>
 
-<div class="awards">
+<div class="awards mb-3">
+  <h5>Prêmios</h5>
   <ul class="list-group mt-3">
-    @each(award in raffleAward.awards)
+    @each(award in raffle.awards)
    
     <li class="list-group-item d-flex justify-content-between">
-      <div class="descriptionAward"> {{ award.descriptionAward }}</div>
-      <div class="actions">
-        <a href="{{ route('raffles.index') }}" class="btn btn-primary">Editar</a>
-      </div>
+      <div class="descriptionAward">{{award.colocation}} - {{ award.descriptionAward }}</div>
     </li>
     @endeach
   </ul>
 </div>
 
-<div class="tickets">
+<div class="tickets mb-3">
+  <h5>Bilhetes</h5>
   <ul class="list-group mt-3">
     @each(ticket in raffle.tickets)
       <li class="list-group-item d-flex justify-content-between">
-        <div class="num"> {{ ticket.number }}</div>
-        <div class="actions">
-          <a href="{{ route('raffles.index') }}" class="btn btn-primary">Comprar</a>
-        </div>
+          <div>
+            {{ ticket.number }}
+          </div>
+          <div>
+            <span class="badge rounded-pill bg-secondary"> {{ ticket.user_id  ? 'vendido' : 'a venda'  }}</span>
+          </div>
       </li>
     @endeach
   </ul>

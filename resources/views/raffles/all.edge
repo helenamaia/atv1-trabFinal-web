@@ -1,0 +1,24 @@
+@layout('layout/app')
+
+@section('content')
+
+<div class="raffles">
+  <ul class="list-group mt-3">
+    @each(raffle in raffles)
+      <li class="list-group-item d-flex justify-content-between">
+        <div class="name">{{ raffle.title }}</div>
+        <div class="actions"> 
+          <a href="{{ route('raffles.show', { id: raffle.id}) }}" class="btn btn-primary">Visualizar</a>
+        </div>
+      </li>
+    @endeach
+    
+  </ul>
+</div>
+
+<div>
+  <a href="{{ route('root') }}" class="btn btn-link">
+    Voltar
+  </a>
+</div>
+@endsection

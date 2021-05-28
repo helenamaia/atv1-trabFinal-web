@@ -1,4 +1,4 @@
- import { AuthContract } from '@ioc:Adonis/Addons/Auth';
+import { AuthContract } from '@ioc:Adonis/Addons/Auth';
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Award from 'App/Models/Award'
 import Raffle from 'App/Models/Raffle';
@@ -9,26 +9,27 @@ export default class AwardsController {
 
     const award = new Award();
     const raffle = await this.getRaffle(auth, params.id, true)
-    return view.render('Awards/create', {award, raffle})
+    const colocation = 1 + ((await raffle.related('awards').query().max('colocation', 'colocation').first())?.colocation || 0)
+    return view.render('Awards/create', { award, raffle, colocation })
   }
 
   public async store({ request, response, auth, session, params }: HttpContextContract) {
     const data = await request.only(['descriptionAward', 'colocation'])
     const raffle = await this.getRaffle(auth, params.id, true)
-    if (!this.validate(data,session, true)) {
+    if (!this.validate(data, session, true)) {
       return response.redirect().back()
     }
-    
-    const award = await Award.create({...data, raffleId: raffle.id})
-   
+
+    const award = await Award.create({ ...data, raffleId: raffle.id })
+
     response.redirect().toRoute('raffles.index')
   }
 
   private async getRaffle(auth: AuthContract, id, preaload = false): Promise<Raffle> {
     const user = auth.user!!
-    if(preaload){
+    if (preaload) {
       return await user.related('raffles').query().where('id', id).preload('tickets').firstOrFail()
-    }else{
+    } else {
       return await user.related('raffles').query().where('id', id).firstOrFail()
     }
   }
@@ -36,12 +37,12 @@ export default class AwardsController {
   private validate(data, dataAward, session, option = false): Boolean {
     const errors = {}
 
-  
-    if(!data.descriptionAward){
+
+    if (!data.descriptionAward) {
       this.registerError(errors, 'descriptionAward', 'Campo obrigatório')
     }
-  
-    if(!data.colocation){
+
+    if (!data.colocation) {
       this.registerError(errors, 'colocation', 'Campo obrigatório')
     }
 

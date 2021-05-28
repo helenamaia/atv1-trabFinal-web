@@ -6,6 +6,8 @@ Route.group(() => {
   Route.resource('raffles', 'RafflesController')
   Route.get('/raffles/:id/awards', 'AwardsController.create').as('awards.create')
   Route.post('/raffles/:id/awards', 'AwardsController.store').as('awards.store')
+  Route.get('/raffles/all', 'RafflesController.all').as('raffles.all')
+
 
 }).middleware('auth')
 

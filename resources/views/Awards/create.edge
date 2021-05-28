@@ -27,7 +27,7 @@
         <div class="input-group-prepend">
           <span class="input-group-text">Colocação:</span>
         </div>
-        <input type="number" name="colocation" class="form-control" value="{{ flashMessages.get('colocation', award.colocation) || '' }}">
+        <input type="number" readonly name="colocation" class="form-control" value="{{ colocation }}">
         
       </div>
       @if(flashMessages.has('errors.colocation'))

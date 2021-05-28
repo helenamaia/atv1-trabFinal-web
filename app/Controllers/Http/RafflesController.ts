@@ -15,6 +15,14 @@ export default class RafllesController {
     return view.render('raffles/index', { raffles })
   }
 
+  public async all({ view }: HttpContextContract) {
+
+    const raffles = await Raffle.all()
+
+
+    return view.render('raffles/all', { raffles })
+  }
+
   public async create({ view }: HttpContextContract) {
     const raffle = new Raffle()
     const types = await Type.all()
@@ -30,27 +38,27 @@ export default class RafllesController {
     }
     const user = auth.user
     const raffle = await Raffle.create({ ...data, userId: user?.id })
-    const award = await Award.create({...dataAward, colocation: 1, raffleId: raffle.id})
+    const award = await Award.create({ ...dataAward, colocation: 1, raffleId: raffle.id })
 
     let tickets = Array()
     for (let i = 1; i < 1001; i++) {
-      const ticket = { "raffleId": raffle.id, "userId": user!!.id, "number": i}
+      const ticket = { "raffleId": raffle.id, "userId": user!!.id, "number": i }
       tickets.push(ticket)
     }
     await Ticket.createMany(tickets)
     response.redirect().toRoute('raffles.index')
   }
+
   public async show({ view, auth, params }: HttpContextContract) {
     const types = await Type.all()
     const raffle = await this.getRaffle(auth, params.id, true)
-    const raffleAward =  await this.getRaffleAward(auth, params.id, true)
-    return view.render('raffles/show', { raffle, types, raffleAward})
+    return view.render('raffles/show', { raffle, types })
   }
 
   public async edit({ params, view, auth }: HttpContextContract) {
     const raffle = await this.getRaffle(auth, params.id, true)
     const types = await Type.all()
-    return view.render('raffles/edit', { raffle, types})
+    return view.render('raffles/edit', { raffle, types })
   }
 
   public async update({ params, request, response, auth, session }: HttpContextContract) {
@@ -68,32 +76,15 @@ export default class RafllesController {
 
   
 
-  
-
 
   private async getRaffle(auth: AuthContract, id, preaload = false): Promise<Raffle> {
     const user = auth.user!!
-    if(preaload){
-      return await user.related('raffles').query().where('id', id).preload('tickets').firstOrFail()
-    }else{
-      return await user.related('raffles').query().where('id', id).firstOrFail()
+    if (preaload) {
+      return await user.related('raffles').query().where('raffles.id', id).preload('tickets').preload('awards').firstOrFail()
+    } else {
+      return await user.related('raffles').query().where('raffles.id', id).firstOrFail()
     }
   }
-
-  private async getRaffleAward(auth: AuthContract, id, preaload = false): Promise<Raffle> {
-    const user = auth.user!!
-    if(preaload){
-      return await user.related('raffles').query().where('id', id).preload('awards').firstOrFail()
-    }else{
-      return await user.related('raffles').query().where('id', id).firstOrFail()
-    }
-  }
-  
-
-  
-  
- 
-
 
   private validate(data, dataAward, session, option = false): Boolean {
     const errors = {}
@@ -102,13 +93,13 @@ export default class RafllesController {
       this.registerError(errors, 'title', 'Campo obrigatório')
     }
 
-    if(!data.dateLikelySortition){
+    if (!data.dateLikelySortition) {
       this.registerError(errors, 'dateLikelySortition', 'Campo obrigatório')
     }
-    if(!data.dateStartSale){
+    if (!data.dateStartSale) {
       this.registerError(errors, 'dateStartSale', 'Campo obrigatório')
     }
-    if(!data.dateEndSale){
+    if (!data.dateEndSale) {
       this.registerError(errors, 'dateEndSale', 'Campo obrigatório')
     }
 
@@ -116,19 +107,19 @@ export default class RafllesController {
       this.registerError(errors, 'priceTicket', 'Campo obrigatório')
     }
 
-    if(!data.typeId){
+    if (!data.typeId) {
       this.registerError(errors, 'typeId', 'Campo obrigatório')
     }
-    if(option){
-      if(!dataAward.descriptionAward){
+    if (option) {
+      if (!dataAward.descriptionAward) {
         this.registerError(errors, 'descriptionAward', 'Campo obrigatório')
       }
-  
-      
+
+
     }
-    
-    
-    
+
+
+
 
     if (Object.entries(errors).length > 0) {
       session.flash('error', 'Erro ao salvar a rifa.')
