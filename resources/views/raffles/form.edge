@@ -1,0 +1,76 @@
+{{ csrfField() }}
+    <div class="row mb-3">
+      <div class="col">
+        <div class="input-group">
+          <div class="p-1 w-50">
+            <label for="title" class="form-label">Título</label>
+            <input class="form-control" type="text" name="title" id="title" value="{{ flashMessages.get('title', raffle.title) || '' }}">
+            @if(flashMessages.has('errors.title'))
+             <small class="text-danger">{{ flashMessages.get('errors.title') }}</small>
+            @endif
+          </div>
+          <div class="p-1 w-50">
+            <label for="description" class="form-label">Descrição</label>
+            <input class="form-control" type="text" name="description" id="description" value="{{ flashMessages.get('description', raffle.description) || '' }}">
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="row mb-3">
+      <div class="col px-md-5">
+        <div class="input-group mb-3 ">
+          <div class="dateLikelySortition  p-3 w-25">
+            <label for="dateLikelySortition">Data provável do sorteio</label>
+            <input class="form-control" name="dateLikelySortition" id="dateLikelySortition" type="date" value="{{ flashMessages.get('dateLikelySortition', raffle.dateLikelySortition) || '' }}">
+            @if(flashMessages.has('errors.dateLikelySortition'))
+              <small class="text-danger">{{ flashMessages.get('errors.dateLikelySortition') }}</small>
+            @endif
+          </div>
+          <div class="dateStartSale  p-3 w-25 ">
+            <label for="dateStartSale">Começo das vendas</label>
+            <input class="form-control" name="dateStartSale" id="dateStartSale" type="date" value="{{ flashMessages.get('dateStartSale', raffle.dateStartSale) || '' }}">
+            @if(flashMessages.has('errors.dateStartSale'))
+              <small class="text-danger">{{ flashMessages.get('errors.dateStartSale') }}</small>
+            @endif
+          </div>
+          <div class="dateEndSale p-3 w-25">
+            <label for="dateEndSale">Fim das vendas</label>
+            <input class="form-control" name="dateEndSale" id="dateEndSale" type="date" value="{{ flashMessages.get('dateEndSale', raffle.dateEndSale) || '' }}">
+            @if(flashMessages.has('errors.dateEndSale'))
+              <small class="text-danger">{{ flashMessages.get('errors.dateEndSale') }}</small>
+            @endif
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row mb-3">
+      <div class="col">
+        <div class="input-group w-75">
+          <div class="input-group-prepend">
+            <span class="input-group-text">Valor da rifa:</span>
+          </div>
+          <input type="number" name="priceTicket" class="form-control" value="{{ flashMessages.get('priceTicket', raffle.priceTicket) || '' }}">
+          <div class="input-group-append">
+            <span class="input-group-text">.00</span>
+          </div>
+        </div>
+        @if(flashMessages.has('errors.priceTicket'))
+            <small class="text-danger">{{ flashMessages.get('errors.priceTicket') }}</small>
+          @endif
+      </div>
+      <div class="col">
+        <div class="input-group w-75">
+          <select class="form-select" name="typeId">
+            <option value="" selected>Selecione um tipo...</option>
+            @each(type in types)
+              <option value="{{ flashMessages.get('typeId', 'raffle.typeId') || '' }}" {{ raffle.typeId === type.id ? 'selected' : '' }}>{{ type.description }}</option>
+            @endeach
+          </select>
+        </div>
+        @if(flashMessages.has('errors.typeId'))
+          <small class="text-danger">{{ flashMessages.get('errors.typeId') }}</small>
+        @endif
+      </div>
+    </div>
+    </div>

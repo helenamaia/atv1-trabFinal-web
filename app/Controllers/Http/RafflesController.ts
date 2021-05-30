@@ -15,14 +15,6 @@ export default class RafllesController {
     return view.render('raffles/index', { raffles })
   }
 
-  public async all({ view }: HttpContextContract) {
-
-    const raffles = await Raffle.all()
-
-
-    return view.render('raffles/all', { raffles })
-  }
-
   public async create({ view }: HttpContextContract) {
     const raffle = new Raffle()
     const types = await Type.all()
@@ -74,6 +66,21 @@ export default class RafllesController {
     response.redirect().toRoute('raffles.index')
   }
 
+  
+  public async explorer({ view }: HttpContextContract) {
+
+  const rafflesAll = await Raffle.all()
+
+  
+    return view.render('raffles/explorer', { rafflesAll })
+  }
+
+  public async sale({ view, auth, params }: HttpContextContract) {
+    const types = await Type.all()
+    const raffle = await this.getRaffle(auth, params.id, true)
+  
+      return view.render('raffles/sale', { raffle, types })
+  }
   
 
 

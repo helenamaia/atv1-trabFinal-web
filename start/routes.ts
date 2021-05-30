@@ -3,14 +3,16 @@ import Raffles from 'Database/migrations/1621037796293_raffles'
 
 
 Route.group(() => {
+  
+  Route.get('/explorer/:id/sale', 'RafflesController.sale').as('raffles.sale')
+  Route.get('/explorer', 'RafflesController.explorer').as('raffles.explorer')
+
   Route.resource('raffles', 'RafflesController')
   Route.get('/raffles/:id/awards', 'AwardsController.create').as('awards.create')
   Route.post('/raffles/:id/awards', 'AwardsController.store').as('awards.store')
-  Route.get('/raffles/all', 'RafflesController.all').as('raffles.all')
 
 
 }).middleware('auth')
-
 
 Route.get('/register', 'AuthController.register').as('auth.register')
 Route.post('/register', 'AuthController.store').as('auth.store')

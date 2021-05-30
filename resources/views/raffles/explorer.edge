@@ -4,11 +4,11 @@
 
 <div class="raffles">
   <ul class="list-group mt-3">
-    @each(raffle in raffles)
+    @each(raffle in rafflesAll)
       <li class="list-group-item d-flex justify-content-between">
         <div class="name">{{ raffle.title }}</div>
         <div class="actions"> 
-          <a href="{{ route('raffles.show', { id: raffle.id}) }}" class="btn btn-primary">Visualizar</a>
+          <a href="{{ route('raffles.sale', { id: raffle.id}) }}" class="btn btn-primary">Visualizar</a>
         </div>
       </li>
     @endeach
