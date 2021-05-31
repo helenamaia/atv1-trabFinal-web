@@ -1,16 +1,22 @@
 @layout('layout/app')
 
 @section('content')
-<div>
-  
-  <h1>Bem vindo ao projeto final</h1>
-  <p>Instituto Federal do Paraná</p>
-  <p>10 de maio de 2021</p>
- 
+<div class="row">
+  <div class="col">
+    <h2>Minhas Rifas</h2>
+    <ul class="list-group mt-3">
+      @each(raffle in raffles)
+        <li class="list-group-item d-flex justify-content-between">
+          <a href="{{ route('raffles.show', { id: raffle.id }) }}" class="btn btn-link">{{ raffle.title }}</a>
+        </li>
+      @endeach
+    </ul>
+  </div>
+  <div class="col">
+    <h2>Rifas que estou participando</h2>
+
+  </div>
 </div>
-<div>
-  <a href="{{ route('raffles.index') }}" class="btn btn-primary">
-    Sobre
-  </a>
-</div>
+
+
 @endsection

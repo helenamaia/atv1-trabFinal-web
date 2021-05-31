@@ -34,7 +34,7 @@ export default class RafllesController {
 
     let tickets = Array()
     for (let i = 1; i < 1001; i++) {
-      const ticket = { "raffleId": raffle.id, "userId": user!!.id, "number": i }
+      const ticket = { "raffleId": raffle.id, "number": i }
       tickets.push(ticket)
     }
     await Ticket.createMany(tickets)
@@ -43,7 +43,7 @@ export default class RafllesController {
 
   public async show({ view, auth, params }: HttpContextContract) {
     const types = await Type.all()
-    const raffle = await this.getRaffle(auth, params.id, true)
+    const raffle = await Raffle.query().where('raffles.id', params.id).preload('tickets').preload('awards').firstOrFail()
     return view.render('raffles/show', { raffle, types })
   }
 
@@ -75,11 +75,11 @@ export default class RafllesController {
     return view.render('raffles/explorer', { rafflesAll })
   }
 
-  public async sale({ view, auth, params }: HttpContextContract) {
-    const types = await Type.all()
-    const raffle = await this.getRaffle(auth, params.id, true)
-  
-      return view.render('raffles/sale', { raffle, types })
+  public async buy({ params, response, auth }: HttpContextContract) {
+    let ticket = await Ticket.query().where('raffle_id', params.raffle_id).where('id', params.id).firstOrFail()
+    ticket.userId = auth.user!!.id
+    ticket.save()
+    response.redirect().toRoute('raffles.index', { raffle_id: ticket.raffleId, id: ticket.id})
   }
   
 

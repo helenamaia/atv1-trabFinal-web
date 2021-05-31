@@ -13,7 +13,11 @@
             {{ ticket.number }}
           </div>
           <div>
-            <span class="badge rounded-pill bg-secondary"> {{ ticket.user_id  ? 'vendido' : 'a venda'  }}</span>
+            @if(ticket.userId)
+              <span  class="badge rounded-pill bg-secondary" >  vendido </span>
+            @else
+              <a href="{{ route('raffles.buy', { id: ticket.id, raffle_id: raffle.id }) }}" class="btn btn-primary">comprar </a>
+            @endif
           </div>
       </li>
     @endeach
