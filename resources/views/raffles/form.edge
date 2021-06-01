@@ -22,21 +22,21 @@
         <div class="input-group mb-3 ">
           <div class="dateLikelySortition  p-3 w-25">
             <label for="dateLikelySortition">Data provável do sorteio</label>
-            <input class="form-control" name="dateLikelySortition" id="dateLikelySortition" type="date" value="{{ flashMessages.get('dateLikelySortition', raffle.dateLikelySortition) || '' }}">
+            <input class="form-control" name="dateLikelySortition" id="dateLikelySortition" type="datetime-local" value="{{ flashMessages.get('dateLikelySortition', raffle.dateLikelySortition) || '' }}">
             @if(flashMessages.has('errors.dateLikelySortition'))
               <small class="text-danger">{{ flashMessages.get('errors.dateLikelySortition') }}</small>
             @endif
           </div>
           <div class="dateStartSale  p-3 w-25 ">
             <label for="dateStartSale">Começo das vendas</label>
-            <input class="form-control" name="dateStartSale" id="dateStartSale" type="date" value="{{ flashMessages.get('dateStartSale', raffle.dateStartSale) || '' }}">
+            <input class="form-control" name="dateStartSale" id="dateStartSale" type="datetime-local" value="{{ flashMessages.get('dateStartSale', raffle.dateStartSale) || '' }}">
             @if(flashMessages.has('errors.dateStartSale'))
               <small class="text-danger">{{ flashMessages.get('errors.dateStartSale') }}</small>
             @endif
           </div>
           <div class="dateEndSale p-3 w-25">
             <label for="dateEndSale">Fim das vendas</label>
-            <input class="form-control" name="dateEndSale" id="dateEndSale" type="date" value="{{ flashMessages.get('dateEndSale', raffle.dateEndSale) || '' }}">
+            <input class="form-control" name="dateEndSale" id="dateEndSale" type="datetime-local" value="{{ flashMessages.get('dateEndSale', raffle.dateEndSale) || '' }}">
             @if(flashMessages.has('errors.dateEndSale'))
               <small class="text-danger">{{ flashMessages.get('errors.dateEndSale') }}</small>
             @endif

@@ -1,39 +1,18 @@
-/**
- * Config source: https://git.io/JesV9
- *
- * Feel free to let us know via PR, if you find something broken in this config
- * file.
- */
 
 import Env from '@ioc:Adonis/Core/Env'
 import Application from '@ioc:Adonis/Core/Application'
 import { DatabaseConfig } from '@ioc:Adonis/Lucid/Database'
+import Url from 'url-parse'
+
+const databaseUrl = new Url(Env.get('DATABASE_URL'))
+
 
 const databaseConfig: DatabaseConfig = {
-  /*
-  |--------------------------------------------------------------------------
-  | Connection
-  |--------------------------------------------------------------------------
-  |
-  | The primary connection for making database queries across the application
-  | You can use any key from the `connections` object defined in this same
-  | file.
-  |
-  */
+  
   connection: Env.get('DB_CONNECTION'),
 
   connections: {
-    /*
-    |--------------------------------------------------------------------------
-    | SQLite
-    |--------------------------------------------------------------------------
-    |
-    | Configuration for the SQLite database.  Make sure to install the driver
-    | from npm when using this connection
-    |
-    | npm i sqlite3
-    |
-    */
+   
     sqlite: {
       client: 'sqlite',
       connection: {
@@ -43,6 +22,26 @@ const databaseConfig: DatabaseConfig = {
         naturalSort: true,
       },
       useNullAsDefault: true,
+      healthCheck: false,
+      debug: false,
+    },
+
+   
+    pg: {
+      client: 'pg',
+      connection: {
+        host: databaseUrl.hostname as string,
+        port: databaseUrl.port as number,
+        user: databaseUrl.username as string,
+        password: databaseUrl.password as string,
+        database: databaseUrl.pathname.substr(1) as string,
+        ssl: {
+          rejectUnauthorized: false
+        },
+      },
+      migrations: {
+        naturalSort: true,
+      },
       healthCheck: false,
       debug: false,
     },
