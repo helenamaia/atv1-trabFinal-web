@@ -28,9 +28,10 @@ export default class RafllesController {
     if (!this.validate(data, dataAward, session, true)) {
       return response.redirect().back()
     }
-    const user = auth.user
-    const raffle = await Raffle.create({ ...data, userId: user?.id })
-    await Award.create({ ...dataAward, colocation: 1, raffleId: raffle.id })
+    const user = auth.user!!
+    const raffle = await user.related('raffles').create(data)
+    raffle.related('awards').create({...dataAward, colocation: 1})
+    
 
     let tickets = Array()
     for (let i = 1; i < 1001; i++) {

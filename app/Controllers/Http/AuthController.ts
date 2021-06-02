@@ -12,6 +12,8 @@ export default class AuthController {
       const user = await User.create(data)
       await auth.login(user, true)
     } catch (error) {
+      console.log(error);
+      
       session.flash('errors', 'Erro no registro. Verifique suas informações.')
       return response.redirect().toRoute('auth.register')
     }
