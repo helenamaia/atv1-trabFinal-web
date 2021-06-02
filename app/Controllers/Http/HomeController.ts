@@ -1,5 +1,5 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
-import authConfig from 'Config/auth'
+
 
 export default class HomeController {
   public async index ({view, auth}: HttpContextContract) {

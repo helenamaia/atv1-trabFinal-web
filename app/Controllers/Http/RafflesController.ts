@@ -1,4 +1,4 @@
-import { listDirectoryFiles } from '@adonisjs/ace'
+
 import { AuthContract } from '@ioc:Adonis/Addons/Auth'
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Award from 'App/Models/Award'
@@ -7,7 +7,7 @@ import Ticket from 'App/Models/Ticket'
 import Type from 'App/Models/Type'
 
 export default class RafllesController {
-  public async index({ view, auth, params }: HttpContextContract) {
+  public async index({ view, auth}: HttpContextContract) {
 
     const user = auth.user!!
     const raffles = await user.related('raffles').query()
@@ -30,7 +30,7 @@ export default class RafllesController {
     }
     const user = auth.user
     const raffle = await Raffle.create({ ...data, userId: user?.id })
-    const award = await Award.create({ ...dataAward, colocation: 1, raffleId: raffle.id })
+    await Award.create({ ...dataAward, colocation: 1, raffleId: raffle.id })
 
     let tickets = Array()
     for (let i = 1; i < 1001; i++) {
@@ -41,7 +41,7 @@ export default class RafllesController {
     response.redirect().toRoute('raffles.index')
   }
 
-  public async show({ view, auth, params }: HttpContextContract) {
+  public async show({ view, params }: HttpContextContract) {
     const types = await Type.all()
     const raffle = await Raffle.query().where('raffles.id', params.id).preload('tickets').preload('awards').firstOrFail()
     return view.render('raffles/show', { raffle, types })

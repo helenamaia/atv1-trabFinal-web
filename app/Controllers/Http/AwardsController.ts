@@ -16,11 +16,11 @@ export default class AwardsController {
   public async store({ request, response, auth, session, params }: HttpContextContract) {
     const data = await request.only(['descriptionAward', 'colocation'])
     const raffle = await this.getRaffle(auth, params.id, true)
-    if (!this.validate(data, session, true)) {
+    if (!this.validate(data, session)) {
       return response.redirect().back()
     }
 
-    const award = await Award.create({ ...data, raffleId: raffle.id })
+    await Award.create({ ...data, raffleId: raffle.id })
 
     response.redirect().toRoute('raffles.index')
   }
@@ -34,7 +34,7 @@ export default class AwardsController {
     }
   }
 
-  private validate(data, dataAward, session, option = false): Boolean {
+  private validate(data, session): Boolean {
     const errors = {}
 
 

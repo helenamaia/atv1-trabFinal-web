@@ -1,5 +1,5 @@
 import Route from '@ioc:Adonis/Core/Route'
-import Raffles from 'Database/migrations/1621037796293_raffles'
+
 
 
 Route.group(() => {
