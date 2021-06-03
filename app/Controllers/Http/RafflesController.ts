@@ -32,10 +32,11 @@ export default class RafllesController {
     const raffle = await user.related('raffles').create(data)
     raffle.related('awards').create({...dataAward, colocation: 1})
     
-
+    const type = await Type.query().where('id', data.typeId).firstOrFail()
+    console.log(type);
     let tickets = Array()
-    for (let i = 1; i < 1001; i++) {
-      const ticket = { "raffleId": raffle.id, "number": i }
+    for (let i = 0, j = type.initialNumber; i < type.ticketsNumber; i++, j+=type.step) {
+      const ticket = { "raffleId": raffle.id, "number": j }
       tickets.push(ticket)
     }
     await Ticket.createMany(tickets)
