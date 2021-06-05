@@ -1,0 +1,29 @@
+@layout('layout/app')
+
+@section('content')
+
+<form class="row gy-2 gx-3 align-items-center justify-content-center p-5 mb-3" action="{{ route('types.store') }}" method="POST">
+  {{ csrfField() }}
+  <div class="col-auto">
+    <label class="form-label" for="description" >Descrição</label>
+    <input type="text" class="form-control" id="description" name="description">
+  </div>
+  <div class="col-auto">
+    <label class="form-label" for="description">Numero inicial</label>
+    <input type="Number" class="form-control" id="initialNumber" name="initialNumber">
+  </div>
+  <div class="col-auto">
+    <label class="form-label" for="step">Passo</label>
+    <input type="Number" class="form-control" id="step" name="step">
+  </div>
+  <div class="col-auto">
+    <label class="form-label" for="ticketsNumber">Número de bilhetes</label>
+    <input type="Number" class="form-control" id="ticketsNumber" name="ticketsNumber">
+  </div>
+  
+  <div class="d-flex justify-content-center">
+    <button type="submit" class="btn btn-primary">Cadastrar</button>
+  </div>
+</form>
+
+@endsection
