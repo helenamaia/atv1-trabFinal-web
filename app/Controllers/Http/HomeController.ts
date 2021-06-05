@@ -1,5 +1,4 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
-import Raffle from 'App/Models/Raffle'
 
 
 
