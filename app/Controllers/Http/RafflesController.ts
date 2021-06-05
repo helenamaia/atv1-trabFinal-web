@@ -5,7 +5,6 @@ import Award from 'App/Models/Award'
 import Raffle from 'App/Models/Raffle'
 import Ticket from 'App/Models/Ticket'
 import Type from 'App/Models/Type'
-import { DateTime } from 'luxon'
 
 export default class RafllesController {
   public async index({ view, auth}: HttpContextContract) {
