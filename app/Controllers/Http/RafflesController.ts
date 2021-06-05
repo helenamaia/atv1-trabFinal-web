@@ -5,6 +5,7 @@ import Award from 'App/Models/Award'
 import Raffle from 'App/Models/Raffle'
 import Ticket from 'App/Models/Ticket'
 import Type from 'App/Models/Type'
+import { DateTime } from 'luxon'
 
 export default class RafllesController {
   public async index({ view, auth}: HttpContextContract) {
@@ -43,10 +44,19 @@ export default class RafllesController {
     response.redirect().toRoute('raffles.index')
   }
 
-  public async show({ view, params }: HttpContextContract) {
+  public async show({request, view, params }: HttpContextContract) {
     const types = await Type.all()
-    const raffle = await Raffle.query().where('raffles.id', params.id).preload('tickets').preload('awards').firstOrFail()
-    return view.render('raffles/show', { raffle, types })
+    const raffle = await Raffle.query().where('raffles.id', params.id).firstOrFail()
+    let pag = request.input('pag', 1)
+    const limit = 100
+
+    const tam = (await raffle.related('tickets').query()).length / limit
+
+    const tickets = await raffle.related('tickets').query().paginate(pag, limit)
+    pag = parseInt(pag)
+   
+    
+    return view.render('raffles/show', { raffle, types, pag, tam, tickets })
   }
 
   public async edit({ params, view, auth }: HttpContextContract) {

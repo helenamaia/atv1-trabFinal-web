@@ -10,6 +10,7 @@ export default class DatabaseSeederSeeder extends BaseSeeder {
     
     const type1 = await Type.create({description: 'festas', initialNumber: 1, step: 2, ticketsNumber: 50})
     const type2 = await Type.create({description: 'beneficente', initialNumber: 100, step: 10, ticketsNumber: 100})
+    await Type.create({description: 'muitas rifas', initialNumber: 1, step: 1, ticketsNumber: 2000})
 
 
     const raffle1 = await user1.related('raffles').create({title: 'Festa Junina', dateLikelySortition: DateTime.fromFormat("May 25 2021", "MMMM d yyyy"), dateStartSale: DateTime.fromFormat("April 07 2021", "MMMM d yyyy"), dateEndSale: DateTime.fromFormat("May 07 2021", "MMMM d yyyy"), priceTicket: 2, typeId: type1.id})
@@ -24,10 +25,10 @@ export default class DatabaseSeederSeeder extends BaseSeeder {
     await raffle2.related('awards').create({descriptionAward: 'mochila', colocation: 2})
     await raffle2.related('awards').create({descriptionAward: 'kit escola', colocation: 1})
 
-    await raffle1.related('tickets').create({userId: user1.id, number: 1})
-    await raffle1.related('tickets').create({userId: user2.id, number: 2})
-    await raffle1.related('tickets').create({userId: user2.id, number: 3})
-    await raffle1.related('tickets').create({userId: user1.id, number: 4})
+    await raffle1.related('tickets').create({number: 1})
+    await raffle1.related('tickets').create({number: 2})
+    await raffle1.related('tickets').create({number: 3})
+    await raffle1.related('tickets').create({number: 4})
     await raffle1.related('tickets').create({userId: user1.id, number: 5})
 
 
