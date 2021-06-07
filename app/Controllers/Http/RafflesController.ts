@@ -7,8 +7,7 @@ import Ticket from 'App/Models/Ticket'
 import Type from 'App/Models/Type'
 
 export default class RafllesController {
-  public async index({ view, auth}: HttpContextContract) {
-
+  public async index({ view, auth}: HttpContextContract) { 
     const user = auth.user!!
     const raffles = await user.related('raffles').query()
 
@@ -45,7 +44,7 @@ export default class RafllesController {
 
   public async show({request, view, params }: HttpContextContract) {
     const types = await Type.all()
-    const raffle = await Raffle.query().where('raffles.id', params.id).firstOrFail()
+    const raffle = await Raffle.query().where('raffles.id', params.id).preload('awards').firstOrFail()
     let pag = request.input('pag', 1)
     const limit = 100
 
@@ -53,6 +52,8 @@ export default class RafllesController {
 
     const tickets = await raffle.related('tickets').query().paginate(pag, limit)
     pag = parseInt(pag)
+
+    
    
     
     return view.render('raffles/show', { raffle, types, pag, tam, tickets })
