@@ -13,7 +13,7 @@ export default class DatabaseSeederSeeder extends BaseSeeder {
     await Type.create({description: 'muitas rifas', initialNumber: 1, step: 1, ticketsNumber: 2000})
 
 
-    const raffle1 = await user1.related('raffles').create({title: 'Festa Junina', dateLikelySortition: DateTime.fromFormat("May 25 2021", "MMMM d yyyy"), dateStartSale: DateTime.fromFormat("April 07 2021", "MMMM d yyyy"), dateEndSale: DateTime.fromFormat("May 07 2021", "MMMM d yyyy"), priceTicket: 2, typeId: type1.id})
+    const raffle1 = await user1.related('raffles').create({title: 'Festa Junina', dateLikelySortition: DateTime.fromFormat("May 25 2021", "MMMM d yyyy"), dateStartSale: DateTime.fromFormat("April 07 2021", "MMMM d yyyy"), dateEndSale: DateTime.fromFormat("May 07 2021", "MMMM d yyyy"),  dateSortition: DateTime.fromFormat("May 25 2021", "MMMM d yyyy"), priceTicket: 2, typeId: type1.id})
     const raffle2 = await user2.related('raffles').create({title: 'Halloween', dateLikelySortition: DateTime.fromFormat("February 10 2022", "MMMM d yyyy"), dateStartSale: DateTime.fromFormat("December 21 2021", "MMMM d yyyy"), dateEndSale: DateTime.fromFormat("January 30 2022", "MMMM d yyyy"), priceTicket: 5, typeId: type1.id })
     await user2.related('raffles').create({title: 'Semana da inclusão', dateLikelySortition: DateTime.fromFormat("july 09 2021", "MMMM d yyyy"), dateStartSale: DateTime.fromFormat("August 15 2021", "MMMM d yyyy"),dateEndSale: DateTime.fromFormat("August 14 2021", "MMMM d yyyy"), priceTicket: 10, typeId: type2.id })
 
@@ -28,7 +28,7 @@ export default class DatabaseSeederSeeder extends BaseSeeder {
     await raffle1.related('tickets').create({number: 1})
     await raffle1.related('tickets').create({number: 2})
     await raffle1.related('tickets').create({number: 3})
-    await raffle1.related('tickets').create({number: 4})
+    await raffle1.related('tickets').create({userId: user1.id, number: 4})
     await raffle1.related('tickets').create({userId: user1.id, number: 5})
 
 

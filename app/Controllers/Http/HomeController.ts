@@ -1,4 +1,5 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
+import Database from '@ioc:Adonis/Lucid/Database'
 import Raffle from 'App/Models/Raffle'
 import Ticket from 'App/Models/Ticket'
 
@@ -12,16 +13,13 @@ export default class HomeController {
     const user = auth.user
     if(user){
       const raffles = await user.related('raffles').query()
-      const rafflesParticipate = await user.related('rafflesParticipate').query()
-    // const rafflesParticipate = await Raffle.query().groupBy('tickets.user_id').preload('tickets').firstOrFail()
-     // const rafflesParticipate = await Raffle.related('tickets').query().groupBy('') 
-   //   console.log(rafflesParticipate);
-     // const tickets = await Ticket.query().groupBy('user_id').firstOrFail()
-
-      console.log(rafflesParticipate)
+      const rafflesParticipate = await Database.rawQuery(
+        `SELECT DISTINCT raffles.* FROM raffles, tickets WHERE tickets.user_id=${user.id} AND raffles.id=tickets.raffle_id`
+      )
+     
       
 
-      return view.render('home/index', {raffles})
+      return view.render('home/index', {raffles, rafflesParticipate})
 
     }
   

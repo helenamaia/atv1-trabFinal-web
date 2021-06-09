@@ -2,6 +2,12 @@
 
 @section('content')
 
+@if(sortition)
+<div class="alert alert-info" role="alert">
+  A rifa já foi sorteada
+</div>
+@endif
+
 @include('raffles/geral')
 
 <div class="tickets mb-3">
@@ -13,15 +19,20 @@
             {{ ticket.number }}
           </div>
           <div>
-            @if(period)
-              @if(ticket.userId)
-                <span  class="badge rounded-pill bg-secondary" >  vendido </span>
+            @if(!sortition)
+              @if(period)
+                @if(ticket.userId)
+                  <span  class="badge rounded-pill bg-secondary" >  vendido </span>
+                @else
+                  <a href="{{ route('raffles.buy', { id: ticket.id, raffle_id: raffle.id }) }}" class="btn btn-primary">comprar </a>
+                @endif
               @else
-                <a href="{{ route('raffles.buy', { id: ticket.id, raffle_id: raffle.id }) }}" class="btn btn-primary">comprar </a>
+              <span  class="badge rounded-pill bg-secondary" > Expirado </span>
               @endif
             @else
-             <span  class="badge rounded-pill bg-secondary" > Expirado </span>
+            <span  class="badge rounded-pill bg-secondary" > já sorteado </span>
             @endif
+            
              
             
           </div>

@@ -14,7 +14,25 @@
   </div>
   <div class="col">
     <h2>Rifas que estou participando</h2>
-
+    <ul class="list-group mt-3">
+      @each(raffle in rafflesParticipate)
+        @if(!raffle.date_sortition)
+          <li class="list-group-item d-flex justify-content-between">
+            <a href="{{ route('raffles.show', { id: raffle.id }) }}" class="btn btn-link">{{ raffle.title }}</a>
+          </li>
+        @endif
+      @endeach
+    </ul>
+    <h2>Rifas passadas</h2>
+    <ul class="list-group mt-3">
+      @each(raffle in rafflesParticipate)
+        @if(raffle.date_sortition)
+          <li class="list-group-item d-flex justify-content-between">
+            <a href="{{ route('raffles.show', { id: raffle.id }) }}" class="btn btn-link">{{ raffle.title }}</a>
+          </li>
+        @endif
+      @endeach
+    </ul>
   </div>
 </div>
 

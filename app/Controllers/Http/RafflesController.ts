@@ -27,7 +27,6 @@ export default class RafllesController {
     data.dateLikelySortition = DateTime.fromISO(data.dateLikelySortition)
     data.dateEndSale = DateTime.fromISO(data.dateEndSale)
     data.dateStartSale = DateTime.fromISO(data.dateStartSale)
-
     const dataAward = await request.only(['descriptionAward'])
     if (!this.validate(data, dataAward, session, true)) {
       return response.redirect().back()
@@ -59,9 +58,7 @@ export default class RafllesController {
     pag = parseInt(pag)
 
     const dateNow = DateTime.now()
-    console.log(raffle.dateEndSale);
-    console.log(dateNow);
-    let period = false; 
+    let period = false
     if(dateNow <= raffle.dateEndSale && dateNow >= raffle.dateStartSale){
        period = true
       
@@ -69,9 +66,14 @@ export default class RafllesController {
       period = false
       
     }
+    let sortition = false
+    if(raffle.dateSortition){ 
+      sortition = true
+    }
     
     
-    return view.render('raffles/show', { raffle, types, pag, tam, tickets, period })
+    
+    return view.render('raffles/show', { raffle, types, pag, tam, tickets, period, sortition })
   }
 
   public async edit({ params, view, auth }: HttpContextContract) {
