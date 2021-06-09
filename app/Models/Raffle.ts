@@ -22,16 +22,16 @@ export default class Raffle extends BaseModel {
   public description: string
 
   
-  @column()
+  @column.dateTime()
   public dateLikelySortition: DateTime
 
-  @column()
+  @column.dateTime()
   public dateStartSale: DateTime
   
-  @column()
+  @column.dateTime()
   public dateEndSale: DateTime
 
-  @column()
+  @column.dateTime()
   public dateSortition: DateTime
 
   @column()

@@ -54,4 +54,7 @@ export default class User extends BaseModel {
   @hasManyThrough([() => Award, () => Raffle])
   public awards: HasManyThrough<typeof Award>
 
+  @hasManyThrough([() => Raffle, () => Ticket], { throughLocalKey: 'raffleId'})
+  public rafflesParticipate : HasManyThrough<typeof Raffle>
+
 }

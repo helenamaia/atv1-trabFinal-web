@@ -5,6 +5,7 @@ import Award from 'App/Models/Award'
 import Raffle from 'App/Models/Raffle'
 import Ticket from 'App/Models/Ticket'
 import Type from 'App/Models/Type'
+import { DateTime } from 'luxon'
 
 export default class RafllesController {
   public async index({ view, auth}: HttpContextContract) { 
@@ -23,6 +24,10 @@ export default class RafllesController {
 
   public async store({ request, response, auth, session }: HttpContextContract) {
     const data = await request.only(['title', 'description', 'dateLikelySortition', 'dateStartSale', 'dateEndSale', 'priceTicket', 'typeId'])
+    data.dateLikelySortition = DateTime.fromISO(data.dateLikelySortition)
+    data.dateEndSale = DateTime.fromISO(data.dateEndSale)
+    data.dateStartSale = DateTime.fromISO(data.dateStartSale)
+
     const dataAward = await request.only(['descriptionAward'])
     if (!this.validate(data, dataAward, session, true)) {
       return response.redirect().back()
@@ -53,10 +58,20 @@ export default class RafllesController {
     const tickets = await raffle.related('tickets').query().paginate(pag, limit)
     pag = parseInt(pag)
 
+    const dateNow = DateTime.now()
+    console.log(raffle.dateEndSale);
+    console.log(dateNow);
+    let period = false; 
+    if(dateNow <= raffle.dateEndSale && dateNow >= raffle.dateStartSale){
+       period = true
+      
+    }else{
+      period = false
+      
+    }
     
-   
     
-    return view.render('raffles/show', { raffle, types, pag, tam, tickets })
+    return view.render('raffles/show', { raffle, types, pag, tam, tickets, period })
   }
 
   public async edit({ params, view, auth }: HttpContextContract) {
