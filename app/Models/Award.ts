@@ -27,4 +27,6 @@ export default class Award extends BaseModel {
   @belongsTo(() => Raffle)
   public raflle: BelongsTo<typeof Raffle>
 
+  
+
 }
