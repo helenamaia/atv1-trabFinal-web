@@ -5,14 +5,16 @@ import Award from 'App/Models/Award'
 import Raffle from 'App/Models/Raffle'
 import Ticket from 'App/Models/Ticket'
 import Type from 'App/Models/Type'
+import User from 'App/Models/User'
 import { DateTime } from 'luxon'
 
 export default class RafllesController {
   public async index({ view, auth}: HttpContextContract) { 
     const user = auth.user!!
     const raffles = await user.related('raffles').query()
+    const dateNow = DateTime.now()
 
-    return view.render('raffles/index', { raffles })
+    return view.render('raffles/index', { raffles, dateNow })
   }
 
   public async create({ view }: HttpContextContract) {
@@ -48,6 +50,7 @@ export default class RafllesController {
 
   public async show({request, view, params }: HttpContextContract) {
     const types = await Type.all()
+    const users = await User.all()
     const raffle = await Raffle.query().where('raffles.id', params.id).preload('awards').firstOrFail()
     let pag = request.input('pag', 1)
     const limit = 100
@@ -73,7 +76,7 @@ export default class RafllesController {
     
     
     
-    return view.render('raffles/show', { raffle, types, pag, tam, tickets, period, sortition })
+    return view.render('raffles/show', { raffle, types, pag, tam, tickets, period, sortition, users })
   }
 
   public async edit({ params, view, auth }: HttpContextContract) {
@@ -95,6 +98,7 @@ export default class RafllesController {
     response.redirect().toRoute('raffles.index')
   }
 
+ 
   
   public async explorer({ view }: HttpContextContract) {
 
@@ -111,6 +115,38 @@ export default class RafllesController {
     response.redirect().toRoute('raffles.index', { raffle_id: ticket.raffleId, id: ticket.id})
   }
   
+  public async sortition({ params, response, auth}: HttpContextContract) {
+    const raffle = await this.getRaffle(auth, params.id, true)
+    const tickets = await raffle.related('tickets').query().where('user_id', '!=', 'null') 
+    const awards = await Award.query().where('raffle_id', raffle.id)
+    
+    let vetor =  Array()
+    tickets.forEach(ticket => {
+      vetor.push(ticket.number)
+    });
+   
+    let vetor2 = Array()
+    for (let i = 0; i < awards.length; i++) {
+      const temp = Math.floor(Math.random()*vetor.length);
+      if(vetor2.indexOf(temp) == -1){
+        vetor2.push(temp)
+        awards[i].ticketDrawn = vetor[temp]
+        awards[i].save()
+        console.log(temp);
+      }
+      else{
+        i--;
+      }
+      //const sort=(Math.random()*vetor.length)+1;
+      
+    }
+
+    raffle.dateSortition = DateTime.now();
+    raffle.save()
+
+    
+    response.redirect().toRoute('raffles.index')
+  }
 
 
   private async getRaffle(auth: AuthContract, id, preaload = false): Promise<Raffle> {

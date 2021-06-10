@@ -12,6 +12,9 @@
       <li class="list-group-item d-flex justify-content-between">
         <div class="name">{{ raffle.title }}</div>
         <div class="actions">
+          @if(raffle.dateEndSale < dateNow && !raffle.dateSortition)
+            <a href="{{ route('raffles.sortition',  { id: raffle.id}) }}" class="btn btn-primary">Sortear</a>
+          @endif
           <a href="{{ route('awards.create',  { id: raffle.id}) }}" class="btn btn-primary">Novo prêmio</a>
           <a href="{{ route('raffles.show', { id: raffle.id}) }}" class="btn btn-primary">Visualizar</a>
           <a href="{{ route('raffles.edit', { id: raffle.id}) }}" class="btn btn-primary">Editar</a>

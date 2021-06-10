@@ -9,6 +9,7 @@ Route.group(() => {
   Route.get('/explorer/:id/sale', 'RafflesController.sale').as('raffles.sale')
   Route.get('/explorer', 'RafflesController.explorer').as('raffles.explorer')
   Route.get('/raffles/:raffle_id/tickets/:id/buy', 'RafflesController.buy').as('raffles.buy')
+  Route.get('/raffles/:id/sortition', 'RafflesController.sortition').as('raffles.sortition')
   Route.get('/raffles/:id/awards', 'AwardsController.create').as('awards.create')
   Route.post('/raffles/:id/awards', 'AwardsController.store').as('awards.store')
   Route.get('/type', 'TypesController.create').as('types.create')

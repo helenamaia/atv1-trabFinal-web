@@ -3,13 +3,80 @@
 @section('content')
 
 @if(sortition)
-<div class="alert alert-info" role="alert">
+<div class="alert alert-info m-2" role="alert">
   A rifa já foi sorteada
 </div>
 
 @endif
 
-@include('raffles/geral')
+<div class="raffles mb-3">
+  <h5>Descrição</h5>
+  <ul class="list-group mt-3">
+   
+      <li class="list-group-item">
+        <div class="name">
+          <strong> Título: </strong>
+          {{ raffle.title }}
+        </div>
+        <div class="type"> 
+          @each(type in types)
+              @if(raffle.typeId === type.id)
+              <strong> Tipo: </strong>
+                {{type.description}}
+              @endif
+          @endeach
+        </div>
+        <div class="description">
+          <strong> Descrição: </strong>
+          {{ raffle.description }}
+        </div>
+        <div class="dateLikelySortition">
+          <strong> Data provável de sorteio: </strong>
+          {{ raffle.dateLikelySortition }}
+        </div>
+        <div class="dateStartSale">
+          <strong> Começo das vendas: </strong>
+          {{ raffle.dateStartSale }}
+        </div>
+        <div class="dateEndSale">
+          <strong> Fim das vendas: </strong>
+          {{ raffle.dateEndSale }}
+        </div>
+        <div class="priceTicket">
+          <strong> Preço da rifa: </strong>
+          {{ raffle.priceTicket }}
+        </div>
+      </li>
+
+  </ul>
+</div>
+
+<div class="awards mb-3">
+  <h5>Prêmios</h5>
+  <ul class="list-group mt-3">
+    @each(award in raffle.awards)
+    @if(sortition)
+      <li class="list-group-item d-flex justify-content-between">
+        <div class="descriptionAward">{{award.colocation}} - {{ award.descriptionAward }}</div>
+        @each(ticket in tickets)
+          @if(ticket.number == award.ticketDrawn)
+            @each(user in users)
+              @if(user.id == ticket.userId)
+               <span  class="badge rounded-pill bg-secondary" > Vencedor: {{user.name}} Bilhete: {{ticket.number}} </span>
+              @endif
+            @endeach
+          @endif
+        @endeach
+      </li>
+    @else
+      <li class="list-group-item d-flex justify-content-between">
+        <div class="descriptionAward">{{award.colocation}} - {{ award.descriptionAward }}</div>
+      </li>
+    @endif
+   
+    @endeach
+  </ul>
+</div>
 
 <div class="tickets mb-3">
   <h5>Bilhetes</h5>
