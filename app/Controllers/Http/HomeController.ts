@@ -16,7 +16,10 @@ export default class HomeController {
       const rafflesParticipate = await Database.rawQuery(
         `SELECT DISTINCT raffles.* FROM raffles, tickets WHERE tickets.user_id=${user.id} AND raffles.id=tickets.raffle_id`
       )
-     
+      const ticketsBuy = await user.related('tickets').query().preload('raflle')
+      const total = ticketsBuy.reduce((sum, ticket) => sum + ticket.raflle.priceTicket, 0)
+      console.log(total);
+      
       
 
       return view.render('home/index', {raffles, rafflesParticipate})
