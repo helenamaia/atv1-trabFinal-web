@@ -13,43 +13,86 @@
     </ul>
   </div>
   <div class="col">
-    <h2>Rifas que estou participando</h2>
-    <ul class="list-group mt-3">
-      @each(raffle in rafflesParticipate)
-        @if(!raffle.date_sortition)
-          <li class="list-group-item d-flex justify-content-between">
-            <a href="{{ route('raffles.show', { id: raffle.id }) }}" class="btn btn-link">{{ raffle.title }}</a>
-          </li>
-        @endif
-      @endeach
-    </ul>
-    <h2>Rifas passadas</h2>
-    <div class="accordion" id="accordionExemple">
-      @each(raffle in rafflesParticipate)
-      <div class="accordion-item">
-        <h2 class="accordion-header" id="raffle-{{ raffle.id }}">
-          @if(raffle.date_sortition)
+    <div>
+      <h2>Rifas que estou participando</h2>
+      <div class="accordion" id="accordionExample">
+        @each(raffle in rafflesParticipate)
+          @if(!raffle.date_sortition)
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="raffle-{{ raffle.id }}">
               <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-raffle-{{ raffle.id }}" aria-expanded="true" aria-controls="collapse-raffle-{{ raffle.id }}">
-                <div>
-                  {{ raffle.title }}
+                <div class="title">
+                  {{raffle.title}}
                 </div>
               </button>
-          @endif
-        </h2>
-        <div id="collapse-raffle-{{ raffle.id }}" class="accordion-collapse collapse" aria-labelledby="raffle-{{ raffle.id }}" data-bs-parent="#accordionExample">
-          <div class="accordion-body">
-            <ul class="list-group mt-3">
-                <li class="list-group-item d-flex justify-content-between">
-                  {{raffle.title}}
-                </li>
-              
-            </ul>
+              </h2>
+              <div id="collapse-raffle-{{ raffle.id }}" class="accordion-collapse collapse" aria-labelledby="raffle-{{ raffle.id }}" data-bs-parent="#accordionExample">
+                <div class="accordion-body">
+                  <a class="btn btn-primary" href="{{ route('raffles.show', { id: raffle.id}) }}">Comprar</a>
+                </div>
+              </div>
           </div>
-        </div>
+          @endif
+        @endeach
       </div>
+      
+    </div>
+    <div>
+      <h2>Rifas passadas</h2>
+    <div class="accordion" id="accordionExemple">
+      @each(raffle in rafflesParticipate)
+        @if(raffle.date_sortition)
+          <div class="accordion-item">
         
+            <h2 class="accordion-header" id="raffle-{{ raffle.id }}">
+            
+                  <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-raffle-{{ raffle.id }}" aria-expanded="true" aria-controls="collapse-raffle-{{ raffle.id }}">
+                    <div>
+                      {{ raffle.title }}
+                    </div>
+                  </button>
+            
+            </h2>
+            <div id="collapse-raffle-{{ raffle.id }}" class="accordion-collapse collapse" aria-labelledby="raffle-{{ raffle.id }}" data-bs-parent="#accordionExample">
+              <div class="accordion-body">
+                <ul>
+                  @each(award in raffle.awards)
+                    @if(award.raffle_id === raffle.id)
+                      <li class="list-group-item d-flex justify-content-between">
+                          <div>
+                            {{award.colocation}} - {{award.description_award}}
+                          </div>
+                        <div>
+                          @each(tickets in raffle.tickets)
+                              @if(tickets.raffle_id === raffle.id)
+                              
+                                @if(tickets.user_id === user.id)
+
+                                  @if(tickets.number === award.ticket_drawn)
+                                    <span >Você é o ganhador</span>          
+                                  @endif
+                                @endif
+                              @endif
+                          @endeach
+                        </div>
+                      </li>
+
+                    @endif 
+                  @endeach
+                  
+                </ul>
+              
+              </div>
+            </div>
+        
+          </div>
+        @endif 
       @endeach
     </div>
+    </div>
+    
+   
+    
   </div>
 </div>
 
