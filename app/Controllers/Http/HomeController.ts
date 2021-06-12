@@ -1,7 +1,6 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Database from '@ioc:Adonis/Lucid/Database'
-import Raffle from 'App/Models/Raffle'
-import Ticket from 'App/Models/Ticket'
+
 
 
 
